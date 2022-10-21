@@ -13,6 +13,9 @@ public interface IntegerList {
     // в качестве результата выполнения.
     Integer add(int index, Integer item);
 
+
+    void grow();
+
     // Установить элемент
     // на определенную позицию,
     // затерев существующий.

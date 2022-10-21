@@ -1,6 +1,6 @@
 public class IntegerListImpl2 implements IntegerList {
     private static final int DEFAULT_SIZE = 15;
-    private final Integer[] list;
+    private Integer[] list;
     private int capacity;
 
     public IntegerListImpl2() {
@@ -35,6 +35,15 @@ public class IntegerListImpl2 implements IntegerList {
         return list[index] = item;
 
     }
+    @Override
+    public void grow() {
+        Integer [] newList = new Integer[(int) (list.length * 1.5)];
+        System.arraycopy(list, 0, newList, 0, capacity);
+        this.list = newList;
+
+
+    }
+
 
     @Override
     public Integer set(int index, Integer item) {
@@ -63,7 +72,7 @@ public class IntegerListImpl2 implements IntegerList {
 
         checkItem(item);
         Integer[] arrayCopyForSearch = toArray();
-        sortInsertion(arrayCopyForSearch);
+        mergeSort(arrayCopyForSearch);
 
         int min = 0;
         int max = arrayCopyForSearch.length - 1;
@@ -175,15 +184,41 @@ public class IntegerListImpl2 implements IntegerList {
         }
         throw new IllegalArgumentException("index должен быть в диапазоне [0, capacity");
     }
-    public void sortInsertion(Integer[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            int temp = arr[i];
-            int j = i;
-            while (j > 0 && arr[j - 1] >= temp) {
-                arr[j] = arr[j - 1];
-                j--;
+    private static void mergeSort(Integer[] arr) {
+        if (arr.length < 2) {
+            return;
+        }
+        int mid = arr.length / 2;
+        Integer[] left = new Integer[mid];
+        Integer[] right = new Integer[arr.length - mid];
+
+        System.arraycopy(arr, 0, left, 0, left.length);
+
+        System.arraycopy(arr, mid , right, 0, right.length);
+
+        mergeSort(left);
+        mergeSort(right);
+
+        merge(arr, left, right);
+    }
+
+    private static void merge(Integer[] arr, Integer[] left, Integer[] right) {
+
+        int mainP = 0;
+        int leftP = 0;
+        int rightP = 0;
+        while (leftP < left.length && rightP < right.length) {
+            if (left[leftP] <= right[rightP]) {
+                arr[mainP++] = left[leftP++];
+            } else {
+                arr[mainP++] = right[rightP++];
             }
-            arr[j] = temp;
+        }
+        while (leftP < left.length) {
+            arr[mainP++] = left[leftP++];
+        }
+        while (rightP < right.length) {
+            arr[mainP++] = right[rightP++];
         }
     }
 }

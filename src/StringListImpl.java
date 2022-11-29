@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class StringListImpl implements StringList {
+//public class StringListImpl implements StringList {
 //    private final String[] repository;
 //    private int size;
 //
@@ -145,4 +145,4 @@ public class StringListImpl implements StringList {
 //    }
 
 
-}
+//}
